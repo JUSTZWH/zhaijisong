@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="mavenbos"
+  id="myeclipse.1523090015913"
+  context-root="/mavenbos"
+  j2ee-spec="6.0"
+  archive="mavenbos.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

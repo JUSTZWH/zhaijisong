@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.ui.theme" value="simple"></constant>
+
+	<package name="needlogin" extends="json-default">
+		<!-- 注册拦截器 -->
+		<interceptors>
+			<interceptor name="login" class="cn.itcast.bos.web.interceptor.LoginInterceptor"></interceptor>
+			<!-- 定义新的拦截器栈 -->
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="login"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- 设置默认拦截器 -->
+		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
+		
+		<!-- 配置全局结果集 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+		
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		<!-- 需要进行权限控制的页面访问 -->
+		<action name="page_*_*">
+			<result type="dispatcher">/WEB-INF/pages/{1}/{2}.jsp</result>
+		</action>
+		
+		<!-- 用户管理 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<!-- 修改密码 -->
+			<result name="editpasswordSUCCESS" type="json">
+				<!-- 配置root参数，指定将值栈哪个数据返回  -->
+				<param name="root">map</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 这个包 不需要登陆拦截  -->
+	<package name="nologin" extends="struts-default">
+		<!-- 登陆功能 -->
+		<action name="login" class="loginAction">
+			<result name="input">/login.jsp</result>
+			<result type="redirect">/index.jsp</result>
+		</action>
+	</package>
+</struts>
